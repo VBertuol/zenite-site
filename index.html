@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zênite: o céu de hoje à noite, sem telescópio</title>
+  <meta name="description" content="O Zênite mostra o que dá para ver no céu de hoje a olho nu, da sua cidade, e avisa na hora certa.">
+
+  <!-- O visual do site. Um arquivo so'. -->
+  <link rel="stylesheet" href="estilo.css">
+
+  <!--
+    A biblioteca do efeito de profundidade (parallax de scroll).
+    Repare que a VERSAO esta escrita dentro do proprio endereco: 1.12.1.
+    E' dali que sai o numero que vai na documentacao do projeto.
+    Se este arquivo nao carregar (sem internet, por exemplo), o site
+    continua funcionando: so' perde o efeito. Quem garante isso e' a
+    checagem no script.js.
+  -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rellax/1.12.1/rellax.min.js"></script>
+</head>
+
+<body>
+
+<!-- ======================================================== topo / menu -->
+<header class="topo">
+  <a class="marca" href="#topo">
+    <span class="marca-ponto"></span>
+    Zênite
+  </a>
+
+  <button class="menu-botao" id="menu-botao" aria-expanded="false" aria-controls="menu">
+    Menu
+  </button>
+
+  <nav class="menu" id="menu">
+    <a href="#recursos">Recursos</a>
+    <a href="#como">Como funciona</a>
+    <a href="#vozes">Quem usa</a>
+    <a class="botao botao-pequeno" href="#aviso">Quero ser avisado</a>
+  </nav>
+</header>
+
+<!-- ============================================================== heroi -->
+<section class="heroi" id="topo">
+
+  <!-- As tres camadas de ceu. Cada uma anda numa velocidade diferente
+       quando a pagina rola, e e' isso que da' a sensacao de profundidade.
+       As estrelas nao sao imagem: sao criadas pelo script.js. -->
+  <div class="ceu" aria-hidden="true">
+    <!-- quanto mais negativo o numero, mais devagar a camada anda ao rolar -->
+    <div class="camada rellax" data-rellax-speed="-1" id="ceu-fundo"></div>
+    <div class="camada rellax" data-rellax-speed="-3" id="ceu-meio"></div>
+    <div class="camada rellax" data-rellax-speed="-6" id="ceu-frente"></div>
+    <div class="horizonte"></div>
+  </div>
+
+  <div class="heroi-conteudo">
+    <div class="heroi-texto">
+      <p class="etiqueta">Aplicativo gratuito</p>
+      <h1>O céu de hoje à noite, <span class="destaque">sem telescópio</span>.</h1>
+      <p class="linha-fina">
+        O Zênite olha a previsão do tempo, a fase da lua e o horário do
+        pôr do sol da sua cidade, e te diz o que dá para ver a olho nu.
+        Depois avisa vinte minutos antes.
+      </p>
+      <div class="acoes">
+        <a class="botao" href="#aviso">Quero ser avisado</a>
+        <a class="botao botao-vazado" href="#como">Ver como funciona</a>
+      </div>
+      <p class="miudo">Sem cadastro para experimentar. Funciona sem internet no campo.</p>
+    </div>
+
+    <!-- O celular e' desenhado aqui mesmo, em SVG. Nenhuma imagem e'
+         baixada: o site inteiro abre sem internet. -->
+    <div class="heroi-arte">
+      <svg class="celular" viewBox="0 0 260 520" role="img" aria-label="Tela do aplicativo Zênite">
+        <rect x="6" y="6" width="248" height="508" rx="34" class="celular-corpo"/>
+        <rect x="18" y="18" width="224" height="484" rx="26" class="celular-tela"/>
+        <rect x="104" y="26" width="52" height="8" rx="4" class="celular-alto-falante"/>
+
+        <text x="38" y="76" class="tela-titulo">Hoje, 20h40</text>
+        <text x="38" y="98" class="tela-fraco">céu limpo · lua 12%</text>
+
+        <rect x="30" y="118" width="200" height="92" rx="14" class="tela-cartao"/>
+        <circle cx="52" cy="148" r="10" class="tela-astro"/>
+        <text x="70" y="146" class="tela-item">Saturno</text>
+        <text x="70" y="166" class="tela-fraco">a leste, bem alto no céu</text>
+        <text x="46" y="192" class="tela-fraco">visível a olho nu</text>
+
+        <rect x="30" y="224" width="200" height="92" rx="14" class="tela-cartao"/>
+        <circle cx="52" cy="254" r="7" class="tela-astro"/>
+        <text x="70" y="252" class="tela-item">Estação espacial</text>
+        <text x="70" y="272" class="tela-fraco">passa 21h07, por 4 min</text>
+        <text x="46" y="298" class="tela-fraco">de sudoeste a nordeste</text>
+
+        <rect x="30" y="332" width="200" height="52" rx="14" class="tela-botao"/>
+        <text x="130" y="364" class="tela-botao-texto" text-anchor="middle">Me avise às 20h20</text>
+
+        <circle cx="60" cy="430" r="1.6" class="tela-estrela"/>
+        <circle cx="96" cy="452" r="2.2" class="tela-estrela"/>
+        <circle cx="140" cy="424" r="1.4" class="tela-estrela"/>
+        <circle cx="176" cy="458" r="2.0" class="tela-estrela"/>
+        <circle cx="208" cy="436" r="1.5" class="tela-estrela"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================= numeros -->
+<section class="faixa-numeros">
+  <div class="interno numeros">
+    <div class="numero"><strong>1.400</strong><span>objetos no catálogo</span></div>
+    <div class="numero"><strong>5.570</strong><span>cidades atendidas</span></div>
+    <div class="numero"><strong>0</strong><span>equipamento necessário</span></div>
+  </div>
+</section>
+
+<!-- ============================================================ recursos -->
+<section class="secao" id="recursos">
+  <div class="interno">
+    <p class="etiqueta">Recursos</p>
+    <h2>Três coisas, e só três.</h2>
+    <p class="linha-fina">
+      A gente cortou tudo que exigia equipamento, conta paga ou saber o nome
+      das constelações.
+    </p>
+
+    <div class="cartoes">
+      <article class="cartao surge">
+        <div class="icone">
+          <svg viewBox="0 0 48 48" aria-hidden="true">
+            <circle cx="24" cy="24" r="15" class="tracado"/>
+            <path d="M24 9v30M9 24h30" class="tracado"/>
+          </svg>
+        </div>
+        <h3>O que dá para ver hoje</h3>
+        <p>
+          Uma lista curta, ordenada pelo que é mais fácil de achar no céu.
+          Nada de carta celeste com trezentos pontos.
+        </p>
+      </article>
+
+      <article class="cartao surge">
+        <div class="icone">
+          <svg viewBox="0 0 48 48" aria-hidden="true">
+            <circle cx="24" cy="24" r="15" class="tracado"/>
+            <path d="M24 15v10l7 4" class="tracado"/>
+          </svg>
+        </div>
+        <h3>Aviso no horário certo</h3>
+        <p>
+          A passagem da estação espacial dura quatro minutos. O aviso chega
+          vinte minutos antes, com a direção para onde olhar.
+        </p>
+      </article>
+
+      <article class="cartao surge">
+        <div class="icone">
+          <svg viewBox="0 0 48 48" aria-hidden="true">
+            <path d="M24 8l4.6 11.4L40 24l-11.4 4.6L24 40l-4.6-11.4L8 24l11.4-4.6z" class="tracado"/>
+          </svg>
+        </div>
+        <h3>Aponta e acha</h3>
+        <p>
+          Levante o celular na direção do céu e ele mostra o que está ali.
+          Funciona sem internet, porque o cálculo é feito no aparelho.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================= como funciona -->
+<section class="secao secao-escura" id="como">
+  <div class="interno">
+    <p class="etiqueta">Como funciona</p>
+    <h2>Três passos, uma vez só.</h2>
+
+    <ol class="passos">
+      <li class="surge">
+        <span class="passo-numero">1</span>
+        <h3>Diga onde você está</h3>
+        <p>Uma vez, na primeira abertura. Pode ser só o nome da cidade.</p>
+      </li>
+      <li class="surge">
+        <span class="passo-numero">2</span>
+        <h3>Escolha o que te interessa</h3>
+        <p>Planetas, lua, chuva de meteoros, estação espacial. Ou tudo.</p>
+      </li>
+      <li class="surge">
+        <span class="passo-numero">3</span>
+        <h3>Espere o aviso</h3>
+        <p>Ele só toca quando o céu está limpo e tem algo para ver.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================================================== vozes -->
+<section class="secao" id="vozes">
+  <div class="interno">
+    <p class="etiqueta">Quem usa</p>
+    <h2>Duas pessoas que não sabiam o nome de nenhuma estrela.</h2>
+
+    <div class="cartoes">
+      <blockquote class="depoimento surge">
+        <p>
+          Eu achava que precisava de telescópio. Vi Saturno da varanda do
+          apartamento, com o celular na mão apontando onde olhar.
+        </p>
+        <footer><strong>Marina</strong><span>professora, Curitiba</span></footer>
+      </blockquote>
+
+      <blockquote class="depoimento surge">
+        <p>
+          O aviso da estação espacial chegou enquanto eu lavava a louça.
+          Saí correndo e deu tempo. Meu filho não acreditou.
+        </p>
+        <footer><strong>Rogério</strong><span>motorista, Palotina</span></footer>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================= chamada final -->
+<section class="secao chamada" id="aviso">
+  <div class="interno estreito">
+    <h2>O Zênite abre em breve.</h2>
+    <p class="linha-fina centro">
+      Deixe seu e-mail e você recebe o convite antes de todo mundo. Um
+      e-mail só, sem lista de novidades.
+    </p>
+
+    <form class="formulario" id="formulario" novalidate>
+      <label class="escondido" for="email">Seu e-mail</label>
+      <input type="email" id="email" name="email" placeholder="voce@exemplo.com" autocomplete="email">
+      <button class="botao" type="submit">Quero o convite</button>
+    </form>
+
+    <p class="recado" id="recado" role="status"></p>
+  </div>
+</section>
+
+<!-- ============================================================= rodape -->
+<footer class="rodape">
+  <div class="interno rodape-interno">
+    <p><strong>Zênite</strong> · aplicativo de exemplo, criado para a aula 2 de DEE339</p>
+    <p class="miudo">
+      Site fictício, feito com IA generativa como material didático.
+      Nenhum produto real é divulgado aqui.
+    </p>
+  </div>
+</footer>
+
+<!-- O comportamento do site. Sempre por ultimo, para o HTML ja' existir
+     quando o script rodar. -->
+<script src="script.js"></script>
+
+</body>
+</html>

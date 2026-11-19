@@ -1,0 +1,271 @@
+/* ==========================================================================
+   Zenite: o visual do site.
+
+   Um arquivo so'. A ordem aqui e' de cima para baixo, igual a' pagina:
+   1. as cores e as medidas   2. o basico   3. o topo   4. o heroi
+   5. as faixas               6. o formulario  7. o rodape  8. o celular
+   ========================================================================== */
+
+/* --------------------------------------------- 1. as cores e as medidas */
+/* Tudo que e' cor ou medida repetida mora aqui em cima, com nome.
+   Trocar a cor do site inteiro e' trocar uma linha. */
+:root {
+  --ceu-escuro:  #070b14;   /* o fundo da noite */
+  --ceu-medio:   #0d1424;   /* faixas alternadas */
+  --ceu-claro:   #16203a;   /* cartoes e bordas */
+  --texto:       #e8ecf6;
+  --texto-fraco: #93a1bd;
+  --estrela:     #f5b962;   /* o ambar do destaque e dos botoes */
+  --frio:        #7cc4ff;   /* o azul de apoio */
+  --borda:       #1e2a45;
+
+  --largura: 1120px;        /* a largura maxima do conteudo */
+  --raio: 16px;             /* o arredondamento padrao */
+  --respiro: 96px;          /* o espaco vertical entre as faixas */
+}
+
+/* ------------------------------------------------------------ 2. basico */
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }   /* o menu desliza em vez de saltar */
+
+/* o topo e' fixo, entao a secao precisa parar ABAIXO dele quando o menu
+   leva ate ela; sem isto o titulo fica escondido atras do cabecalho */
+section[id] { scroll-margin-top: 84px; }
+
+body {
+  margin: 0;
+  background: var(--ceu-escuro);
+  color: var(--texto);
+  font: 17px/1.65 "Segoe UI", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { line-height: 1.15; margin: 0 0 14px; }
+h1 { font-size: clamp(34px, 5.2vw, 58px); letter-spacing: -0.02em; }
+h2 { font-size: clamp(27px, 3.4vw, 40px); letter-spacing: -0.01em; }
+h3 { font-size: 20px; }
+p  { margin: 0 0 14px; }
+a  { color: inherit; text-decoration: none; }
+
+.interno { max-width: var(--largura); margin: 0 auto; padding: 0 24px; }
+.estreito { max-width: 660px; text-align: center; }
+.centro { text-align: center; margin-left: auto; margin-right: auto; }
+
+.etiqueta {
+  color: var(--estrela);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.linha-fina { color: var(--texto-fraco); font-size: 18px; max-width: 62ch; }
+.miudo { color: var(--texto-fraco); font-size: 14px; }
+.destaque { color: var(--estrela); }
+
+.escondido {                      /* some da tela, continua para o leitor
+                                     de tela: e' assim que se esconde um
+                                     rotulo sem tirar a acessibilidade */
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+/* os botoes */
+.botao {
+  display: inline-block;
+  background: var(--estrela);
+  color: #1a1206;
+  font-weight: 650;
+  padding: 14px 26px;
+  border: 1px solid var(--estrela);
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform .15s ease, filter .15s ease;
+}
+.botao:hover { transform: translateY(-2px); filter: brightness(1.08); }
+
+.botao-vazado { background: transparent; color: var(--texto); border-color: var(--borda); }
+.botao-vazado:hover { border-color: var(--frio); }
+.botao-pequeno { padding: 9px 18px; font-size: 15px; }
+
+/* -------------------------------------------------------------- 3. topo */
+.topo {
+  position: sticky; top: 0; z-index: 30;
+  display: flex; align-items: center; gap: 20px;
+  padding: 14px 24px;
+  background: rgba(7, 11, 20, .82);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--borda);
+}
+
+.marca { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 19px; }
+.marca-ponto {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--estrela);
+  box-shadow: 0 0 14px 2px rgba(245, 185, 98, .55);
+}
+
+.menu { margin-left: auto; display: flex; align-items: center; gap: 26px; }
+.menu a { color: var(--texto-fraco); font-size: 16px; }
+.menu a:hover { color: var(--texto); }
+.menu a.botao { color: #1a1206; }
+
+.menu-botao {
+  margin-left: auto; display: none;
+  background: transparent; color: var(--texto);
+  border: 1px solid var(--borda); border-radius: 10px;
+  padding: 8px 14px; cursor: pointer; font: inherit; font-size: 15px;
+}
+
+/* ------------------------------------------------------------- 4. heroi */
+.heroi { position: relative; overflow: hidden; padding: 92px 0 110px; }
+
+/* o ceu ocupa a faixa inteira, atras do texto */
+.ceu { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+
+/* cada camada e' maior que a tela, para sobrar espaco quando ela desliza */
+.camada { position: absolute; left: 0; right: 0; top: -22%; height: 144%; }
+
+.horizonte {                       /* o degrade que apaga as estrelas embaixo */
+  position: absolute; inset: auto 0 0 0; height: 46%;
+  background: linear-gradient(to bottom, rgba(7,11,20,0) 0%, var(--ceu-escuro) 92%);
+}
+
+/* uma estrela: um ponto redondo. O script cria varias delas. */
+.estrela-ponto {
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+  opacity: .8;
+}
+
+.heroi-conteudo {
+  position: relative; z-index: 1;
+  max-width: var(--largura); margin: 0 auto; padding: 0 24px;
+  display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center;
+}
+
+.heroi-texto { max-width: 34rem; }
+.acoes { display: flex; flex-wrap: wrap; gap: 14px; margin: 26px 0 16px; }
+.heroi-arte { display: flex; justify-content: center; }
+
+/* ------------------------------------------------------------ 5. faixas */
+.secao { padding: var(--respiro) 0; }
+.secao-escura { background: var(--ceu-medio); }
+
+.faixa-numeros { background: var(--ceu-medio); border-block: 1px solid var(--borda); padding: 34px 0; }
+.numeros { display: flex; flex-wrap: wrap; justify-content: space-around; gap: 24px; text-align: center; }
+.numero strong { display: block; font-size: 40px; color: var(--estrela); line-height: 1.1; }
+.numero span { color: var(--texto-fraco); font-size: 15px; }
+
+.cartoes {
+  display: grid; gap: 22px; margin-top: 44px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.cartao, .depoimento {
+  background: var(--ceu-claro);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 28px 26px;
+  margin: 0;
+}
+.cartao p, .depoimento p { color: var(--texto-fraco); margin-bottom: 0; }
+
+.icone { width: 46px; height: 46px; margin-bottom: 16px; }
+.icone svg { width: 100%; height: 100%; }
+.tracado { fill: none; stroke: var(--estrela); stroke-width: 2.2; stroke-linecap: round; }
+
+.depoimento footer { margin-top: 18px; display: flex; flex-direction: column; }
+.depoimento footer span { color: var(--texto-fraco); font-size: 14px; }
+
+.passos { list-style: none; padding: 0; margin: 44px 0 0; display: grid; gap: 22px;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.passos li { border-top: 2px solid var(--borda); padding-top: 20px; }
+.passos p { color: var(--texto-fraco); margin-bottom: 0; }
+.passo-numero {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; margin-bottom: 14px;
+  border-radius: 50%; background: rgba(245, 185, 98, .14);
+  color: var(--estrela); font-weight: 700;
+}
+
+/* a entrada suave das secoes.
+   Repare no `.com-js`: o estado inicial (invisivel) so' vale se o
+   JavaScript estiver rodando. Sem ele, o conteudo aparece normal e
+   ninguem fica com a pagina em branco. */
+.com-js .surge { opacity: 0; transform: translateY(18px); }
+.com-js .surge.visivel {
+  opacity: 1; transform: none;
+  transition: opacity .55s ease, transform .55s ease;
+}
+
+/* ------------------------------------------------------- 6. o formulario */
+.chamada { background: var(--ceu-medio); }
+
+.formulario { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 26px; }
+.formulario input {
+  flex: 1 1 280px; max-width: 360px;
+  background: var(--ceu-escuro);
+  border: 1px solid var(--borda); border-radius: 999px;
+  color: var(--texto); font: inherit; padding: 14px 22px;
+}
+.formulario input:focus { outline: 2px solid var(--frio); border-color: var(--frio); }
+.formulario input::placeholder { color: var(--texto-fraco); opacity: 1; }
+
+.recado { min-height: 24px; margin-top: 16px; font-size: 15px; }
+.recado.erro { color: #ff9b8a; }
+.recado.certo { color: #86e0a8; }
+
+/* ----------------------------------------------------------- 7. rodape */
+.rodape { border-top: 1px solid var(--borda); padding: 34px 0; }
+.rodape-interno p { margin: 0 0 6px; }
+
+/* --------------------------------------------------------- 8. o celular */
+.celular { width: 100%; max-width: 260px; height: auto; filter: drop-shadow(0 24px 40px rgba(0,0,0,.55)); }
+.celular-corpo { fill: #10192c; stroke: var(--borda); stroke-width: 2; }
+.celular-tela  { fill: #060a12; }
+.celular-alto-falante { fill: var(--borda); }
+.tela-cartao { fill: #101a2e; stroke: var(--borda); stroke-width: 1; }
+.tela-titulo { fill: var(--texto); font: 600 17px "Segoe UI", sans-serif; }
+.tela-item   { fill: var(--texto); font: 600 14px "Segoe UI", sans-serif; }
+.tela-fraco  { fill: var(--texto-fraco); font: 400 11.5px "Segoe UI", sans-serif; }
+.tela-astro  { fill: var(--estrela); }
+.tela-estrela { fill: #fff; opacity: .75; }
+.tela-botao  { fill: var(--estrela); }
+.tela-botao-texto { fill: #1a1206; font: 600 13px "Segoe UI", sans-serif; }
+
+/* --------------------------------------------------- a tela do celular */
+/* Uma regra so', e ela cuida de tudo que quebra em tela estreita.
+   Testar isto e' obrigatorio: e' o erro numero um da IA em CSS. */
+@media (max-width: 820px) {
+  :root { --respiro: 64px; }
+
+  /* sem JavaScript o menu nao tem como abrir, entao ele nasce ABERTO e
+     empilhado; o `.com-js` (posto pelo script) e' que o fecha atras do botao */
+  .menu {
+    display: flex;
+    position: static;
+    flex-direction: column; align-items: flex-start; gap: 14px;
+    padding: 18px 24px 24px;
+    background: var(--ceu-escuro);
+    border-bottom: 1px solid var(--borda);
+  }
+  .com-js .menu {
+    display: none;
+    position: absolute; top: 100%; left: 0; right: 0;
+  }
+  .com-js .menu.aberto { display: flex; }
+  .com-js .menu-botao { display: block; }
+  .topo { position: relative; }
+
+  .heroi { padding: 56px 0 72px; }
+  .heroi-conteudo { grid-template-columns: 1fr; gap: 40px; }
+  .heroi-arte { order: -1; }
+  .numero strong { font-size: 32px; }
+}
